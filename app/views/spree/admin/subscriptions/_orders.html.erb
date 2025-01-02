@@ -3,7 +3,7 @@
 <div id="subscription_orders">
   <% if @subscription.orders.present? %>
     <table class="table" id="listing_orders" data-hook>
-      <thead>
+      <thead class="text-muted">
         <tr data-hook="admin_orders_index_headers">
           <% if @show_only_completed %>
             <th><%= Spree.t :completed_at %></th>
@@ -55,7 +55,7 @@
       </tbody>
     </table>
   <% else %>
-    <div class="alert alert-info no-objects-found">
+    <div class="text-center no-objects-found m-5">
       <%= Spree.t(:no_sub_orders_found) %>
     </div>
   <% end %>

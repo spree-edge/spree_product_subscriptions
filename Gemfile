@@ -6,7 +6,10 @@ group :test do
   gem 'rails-controller-testing', '~> 1.0.1'
 end
 
-gem 'spree', github: 'spree/spree', branch: 'master'
+gem 'rails', '7.1.3.4'
+
+spree_opts = '4.8.3'
+gem 'spree', spree_opts
 gem 'spree_auth_devise', github: 'spree/spree_auth_devise'
 
 gemspec

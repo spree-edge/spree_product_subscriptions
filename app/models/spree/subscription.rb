@@ -122,7 +122,7 @@ module Spree
 
     def send_prior_notification
       if eligible_for_prior_notification?
-        SubscriptionNotifier.notify_for_next_delivery(self).deliver_later
+        SubscriptionNotifier.notify_for_next_delivery(self).deliver_lateer
       end
     end
 
@@ -228,13 +228,16 @@ module Spree
         if order.payments.exists?
           order.payments.first.update(source: source, payment_method: source.payment_method)
         else
-          order.payments.create(source: source, payment_method: source.payment_method, amount: order.total)
+          created_payment = order.payments.new(source: source, payment_method: source.payment_method, amount: order.total)
+          created_payment.save
+          created_payment.process!
         end
         order.next
       end
 
       def confirm_order(order)
-        order.next
+        order.update(state: "complete")
+        order.finalize!
       end
 
       def order_attributes
@@ -289,7 +292,7 @@ module Spree
       end
 
       def user_notifiable?
-        enabled? && enabled_changed?
+        enabled? || enabled_changed?
       end
 
       def next_occurrence_at_not_changed?

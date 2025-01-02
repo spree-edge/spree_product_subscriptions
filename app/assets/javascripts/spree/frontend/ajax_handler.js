@@ -119,7 +119,7 @@ AjaxHandler.prototype.hideFlashDivs = function() {
   $("#success_flash_message").addClass("hidden");
 };
 
-$(function (){
+document.addEventListener('turbo:load', function() {
   var ajaxHandler = new AjaxHandler($('.ajax_handler'), $('table.line-items'));
   ajaxHandler.init();
 });

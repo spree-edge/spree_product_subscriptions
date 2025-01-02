@@ -29,7 +29,7 @@ module Spree
             render json: {
               subscription_id: @subscription.id,
               flash: t(".success"),
-              method: Spree::Subscription::ACTION_REPRESENTATIONS[:cancel].upcase
+              method: ::Spree::Subscription::ACTION_REPRESENTATIONS[:cancel].upcase
             }, status: 200
           end
           format.html { redirect_to edit_subscription_path(@subscription), success: t(".success") }
@@ -49,8 +49,8 @@ module Spree
         render json: {
           flash: t('.success'),
           url: unpause_subscription_path(@subscription),
-          button_text: Spree::Subscription::ACTION_REPRESENTATIONS[:unpause],
-          confirmation: Spree.t("subscriptions.confirm.activate")
+          button_text: ::Spree::Subscription::ACTION_REPRESENTATIONS[:unpause],
+          confirmation: Spree.t("confirm.activate")
         }, status: 200
       else
         render json: {
@@ -64,9 +64,9 @@ module Spree
         render json: {
           flash: t('.success', next_occurrence_at: @subscription.next_occurrence_at.to_date.to_formatted_s(:rfc822)),
           url: pause_subscription_path(@subscription),
-          button_text: Spree::Subscription::ACTION_REPRESENTATIONS[:pause],
+          button_text: ::Spree::Subscription::ACTION_REPRESENTATIONS[:pause],
           next_occurrence_at: @subscription.next_occurrence_at.to_date,
-          confirmation: Spree.t("subscriptions.confirm.pause")
+          confirmation: Spree.t("confirm.pause")
         }, status: 200
       else
         render json: {
@@ -85,7 +85,7 @@ module Spree
     end
 
     def ensure_subscription
-      @subscription = Spree::Subscription.active.find_by(id: params[:id])
+      @subscription = ::Spree::Subscription.active.find_by(id: params[:id])
       unless @subscription
         respond_to do |format|
           format.html { redirect_to account_path, error: Spree.t('subscriptions.alert.missing') }

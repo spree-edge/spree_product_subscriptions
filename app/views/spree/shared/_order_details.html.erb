@@ -55,77 +55,60 @@
     <div class="checkout-confirm-order-details-line-items-header d-none d-sm-block d-lg-none align-self-start mb-3">
       <%= Spree.t(:products) %>
     </div>
-    <div class="d-table" data-hook="order_details">
-      <div class="d-none d-lg-table-row text-secondary" data-hook="order_details_line_items_headers">
-        <p class="d-table-cell pb-1">
-          <%= Spree.t(:product) %>
-        </p>
-        <p class="d-table-cell pb-1">
-          <%= Spree.t(:price) %>
-        </p>
-        <p class="d-table-cell pb-1">
-          <%= Spree.t(:quantity) %>
-        </p>
-        <p class="d-table-cell pb-1">
-          <%= Spree.t(:total) %>
-        </p>
-        <p class="d-table-cell pb-1">
-          <%= Spree.t(:recurring_delivery_interval) %>
-        </p>
-        <p class="d-table-cell pb-1">
-          <%= Spree.t(:total_deliveries) %>
-        </p>
-      </div>
-
-      <% @order.line_items.each do |item| %>
-        <div class="checkout-confirm-order-details-line-items-line-item w-100 d-table-row" data-hook="order_details_line_item_row">
-          <div class="checkout-confirm-order-details-line-items-line-item-name d-table-cell align-middle py-3 py-sm-4">
-            <div class="d-flex align-items-lg-center">
-              <div class="checkout-confirm-order-details-line-items-line-item-name-image" data-hook="order_item_image">
-                <%= link_to product_image(item.variant), spree.product_path(item.product) %>
-              </div>
-              <div class="d-flex flex-column mt-2 mt-lg-0" data-hook="order_item_description">
-                <div data-hook="order_item_name">
-                  <%= link_to item.name, spree.product_path(item.product), class: 'checkout-confirm-order-details-line-items-line-item-name-link' %>
+    <div class="table-responsive" data-hook="order_details">
+      <table class="table">
+        <thead>
+          <tr data-hook="order_details_line_items_headers">
+            <th><%= Spree.t(:product) %></th>
+            <th><%= Spree.t(:price) %></th>
+            <th><%= Spree.t(:quantity) %></th>
+            <th><%= Spree.t(:total) %></th>
+            <th><%= Spree.t(:recurring_delivery_interval) %></th>
+            <th><%= Spree.t(:total_deliveries) %></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @order.line_items.each do |item| %>
+            <tr data-hook="order_details_line_item_row">
+              <td>
+                <div class="d-flex align-items-center">
+                  <div class="mr-2" data-hook="order_item_image">
+                    <%= link_to product_image(item.variant), spree.product_path(item.product), class: "img-thumbnail" %>
+                  </div>
+                  <div>
+                    <div data-hook="order_item_name">
+                      <%= link_to item.name, spree.product_path(item.product), class: 'font-weight-bold text-decoration-none' %>
+                    </div>
+                    <% unless item.variant.is_master? %>
+                      <ul class="list-unstyled small mb-0" data-hook="order_item_description">
+                        <% item.variant.option_values.sort { |ov| ov.option_type.position }.each do |ov| %>
+                          <li><%= "#{ov.option_type.presentation}: #{ov.presentation}" %></li>
+                        <% end %>
+                      </ul>
+                    <% end %>
+                  </div>
                 </div>
-                <% unless item.variant.is_master? %>
-                  <ul class="checkout-confirm-order-details-line-items-line-item-name-options list-unstyled mb-0">
-                    <% item.variant.option_values.sort { |ov| ov.option_type.position }.each do |ov| %>
-                    <li>
-                      <% # TODO: rework option values so options_text method can be used here %>
-                      <%= "#{ov.option_type.presentation}: #{ov.presentation}" %>
-                    </li>
-                  <% end %>
-                  </ul>
-                <% end %>
-                <div class="d-lg-none" data-hook="order_item_price">
-                  <div class="font-weight-bold"><%= item.single_money.to_html %></div>
-                </div>
-                <div class="d-lg-none" data-hook="order_item_qty">
-                  <span><%= Spree.t(:quantity) %>:</span>
-                  <span class="font-weight-bold"><%= item.quantity %></span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="checkout-confirm-order-details-line-items-line-item-price d-none d-lg-table-cell align-middle py-4" data-hook="order_item_price">
-            <div><%= item.single_money.to_html %></div>
-          </div>
-          <div class="checkout-confirm-order-details-line-items-line-item-quantity d-none d-lg-table-cell align-middle py-4" data-hook="order_item_qty">
-            <span class="checkout-confirm-order-details-line-items-line-item-quantity-val d-lg-block"><%= item.quantity %></span>
-          </div>
-          <div class="checkout-confirm-order-details-line-items-line-item-total d-none d-lg-table-cell align-middle py-4" data-hook="order_item_total">
-            <div><%= item.display_total.to_s %></div>
-          </div>
-          <% subscription = @order.subscriptions.find_by(variant: item.variant) %>
-          <td class='cart-item-subscription d-none d-lg-table-cell align-middle py-4' data-hook='cart_item_subscription'>
-            <%= subscription ? subscription.frequency.title.capitalize : 'Not Subscribed' %>
-          </td>
-          <td class="cart-item-subscription d-none d-lg-table-cell align-middle py-4">
-            <%= subscription ? subscription.delivery_number : 'None' %>
-          </td>
-        </div>
-      <% end %>
+              </td>
+              <td data-hook="order_item_price">
+                <div><%= item.single_money.to_html %></div>
+              </td>
+              <td data-hook="order_item_qty">
+                <div><%= item.quantity %></div>
+              </td>
+              <td data-hook="order_item_total">
+                <div><%= item.display_total.to_s %></div>
+              </td>
+              <% subscription = @order.subscriptions.find_by(variant: item.variant) %>
+              <td data-hook="cart_item_subscription">
+                <%= subscription ? subscription.frequency.title.capitalize : Spree.t(:not_subscribed) %>
+              </td>
+              <td>
+                <%= subscription ? subscription.delivery_number : Spree.t(:none) %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
     </div>
   </div>
 

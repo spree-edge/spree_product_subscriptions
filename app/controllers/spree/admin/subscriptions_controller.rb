@@ -20,8 +20,8 @@ module Spree
           render json: {
             flash: t('.success'),
             url: unpause_subscription_path(@subscription),
-            button_text: Spree::Subscription::ACTION_REPRESENTATIONS[:unpause],
-            confirmation: Spree.t("subscriptions.confirm.activate")
+            button_text: ::Spree::Subscription::ACTION_REPRESENTATIONS[:unpause],
+            confirmation: Spree.t("confirm.activate")
           }, status: 200
         else
           render json: {
@@ -35,9 +35,9 @@ module Spree
           render json: {
             flash: t('.success', next_occurrence_at: @subscription.next_occurrence_at.to_date.to_formatted_s(:rfc822)),
             url: pause_subscription_path(@subscription),
-            button_text: Spree::Subscription::ACTION_REPRESENTATIONS[:pause],
+            button_text: ::Spree::Subscription::ACTION_REPRESENTATIONS[:pause],
             next_occurrence_at: @subscription.next_occurrence_at.to_date,
-            confirmation: Spree.t("subscriptions.confirm.pause")
+            confirmation: Spree.t("confirm.pause")
           }, status: 200
         else
           render json: {
