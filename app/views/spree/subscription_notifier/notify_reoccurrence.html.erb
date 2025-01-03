@@ -71,4 +71,4 @@
 </div>
 
 <p>Your <%= @subscription.frequency.title.capitalize %> subscription has <%= @subscription.number_of_deliveries_left %> deliveries left</p>
-<p>Regards <br> <%= Spree::Stores::FindCurrent.new.execute.name %></p>
+<p>Regards <br> <%= @subscription.parent_order.store.name %></p>

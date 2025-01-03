@@ -122,7 +122,7 @@ module Spree
 
     def send_prior_notification
       if eligible_for_prior_notification?
-        SubscriptionNotifier.notify_for_next_delivery(self).deliver_lateer
+        SubscriptionNotifier.notify_for_next_delivery(self).deliver_later
       end
     end
 

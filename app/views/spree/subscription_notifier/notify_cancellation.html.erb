@@ -71,4 +71,4 @@
   </table>
 </div>
 
-<p>Regards <br> <%= Spree::Stores::FindCurrent.new.execute.name %></p>
+<p>Regards <br> <%= @subscription.parent_order.store.name %></p>
