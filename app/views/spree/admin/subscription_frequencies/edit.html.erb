@@ -1,5 +1,6 @@
 <% content_for :page_title do %>
-  <%= Spree.t(:editing_resource, resource: Spree::SubscriptionFrequency.model_name.human) %>
+  <%= link_to Spree.t(:subscription_frequencies), spree.admin_subscription_frequencies_url %> /
+  <%= @subscription_frequency.title.capitalize %>
 <% end %>
 
 <%= form_for @subscription_frequency, url: object_url, method: :put do |f| %>

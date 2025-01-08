@@ -27,7 +27,7 @@ CartRadioButton.prototype.hideOtherDivs = function() {
   });
 };
 
-$(function() {
+document.addEventListener('turbo:load', function() {
   var cartRadioButton = new CartRadioButton($(".cart_radio_button"));
   cartRadioButton.init();
 });

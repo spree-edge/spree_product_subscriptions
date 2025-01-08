@@ -1,12 +1,12 @@
 <div>
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h1 class="panel-title">
+      <h3 class="panel-title my-4">
         <%= Spree.t(:subscription_item) %>
-      </h1>
+      </h3>
     </div>
-    <table class="table table-bordered line-items" data-hook="line-items">
-      <thead>
+    <table class="table border rounded bg-white line-items" data-hook="line-items">
+      <thead class="text-muted">
         <th colspan="2"><%= Spree.t(:name) %></th>
         <th class="text-center">
           <%= f.label :price, Spree.t(:price) %><span class="required">*</span>
@@ -45,7 +45,7 @@
           <td class="line-item-qty-edit">
             <div data-hook="admin_subscription_frequency_form">
               <%= f.field_container :frequency, class: ["form-group"] do %>
-                <%= f.collection_select :subscription_frequency_id, @subscription.variant.product.subscription_frequencies, :id, :title, {}, { class: "form-control", disabled: @subscription.not_changeable? } %>
+                <%= f.collection_select :subscription_frequency_id, @subscription.variant.product.subscription_frequencies, :id, :title, {}, { class: "form-control text-capitalize", disabled: @subscription.not_changeable? } %>
                 <%= f.error_message_on :frequency %>
               <% end %>
             </div>
